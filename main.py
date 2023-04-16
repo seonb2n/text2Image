@@ -46,15 +46,24 @@ if __name__ == '__main__':
     # print(">>> HG 토큰 : " + HUGGING_FACE_ACCESS_TONE)
     setChromeDriver()
 
-    command_file = os.path.join("./", "IMAGE_COMMAND.txt")
-    opendFile = open(command_file, 'r')
-    Lines = opendFile.readlines()
-
     # 구글 스프레드시트
     json_key_path = "secrets_gs.json"  # JSON Key File Path
     gc = gspread.service_account(filename=json_key_path)
     doc = gc.open("text2image_test")
+
+    # 시트명 설정
     sheet = doc.worksheet("0415")
+
+    # 커맨드 설정
+    col_index = 1
+    col_data = sheet.col_values(col_index)
+
+    with open('IMAGE_COMMAND_FROM_GS.txt', 'w') as f:
+        for cell in col_data:
+            f.write(cell)
+    command_file = os.path.join("./", "IMAGE_COMMAND_FROM_GS.txt")
+    opendFile = open(command_file, 'r')
+    Lines = opendFile.readlines()
 
     # 구글 드라이브
     credentials = service_account.Credentials.from_service_account_file('secrets_gs.json')
