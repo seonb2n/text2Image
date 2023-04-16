@@ -58,6 +58,7 @@ if __name__ == '__main__':
     col_index = 1
     col_data = sheet.col_values(col_index)
 
+    os.remove('IMAGE_COMMAND_FROM_GS.txt')
     with open('IMAGE_COMMAND_FROM_GS.txt', 'w') as f:
         for cell in col_data:
             f.write(cell)
